@@ -1,0 +1,402 @@
+[
+  {
+    "name": "Cat Facts",
+    "description": "Daily cat facts",
+    "category": "Animals",
+    "url": "https://alexwohlbruck.github.io/cat-facts/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Dog API",
+    "description": "Pictures of dogs from Tumblr",
+    "category": "Animals",
+    "url": "https://dog.ceo/dog-api/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Animate Me",
+    "description": "Create animations using animated GIF images",
+    "category": "Art & Design",
+    "url": "https://github.com/Anidoz/AnimateMeApi",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Metropolitan Museum of Art",
+    "description": "Met Museum of Art Collection API",
+    "category": "Art & Design",
+    "url": "https://metmuseum.github.io/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Auth0",
+    "description": "Easy to implement, adaptable authentication and authorization platform",
+    "category": "Authentication & Authorization",
+    "url": "https://auth0.com/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Bitcoin",
+    "description": "Bitcoin Payment Gateway",
+    "category": "Blockchain",
+    "url": "https://bitcoin.org/en/developer-documentation",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Bitquery",
+    "description": "Onchain GraphQL APIs & DEX APIs",
+    "category": "Blockchain",
+    "url": "https://graphql.bitquery.io/ide",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Bored",
+    "description": "Find random activities to fight boredom",
+    "category": "Development",
+    "url": "https://www.boredapi.com/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "API Ninjas",
+    "description": "Large collection of free APIs for various use cases",
+    "category": "Development",
+    "url": "https://api-ninjas.com/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "OpenAI",
+    "description": "Natural language processing and image generation",
+    "category": "AI",
+    "url": "https://openai.com/api/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Hugging Face",
+    "description": "Open source NLP and ML models",
+    "category": "AI",
+    "url": "https://huggingface.co/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "NASA",
+    "description": "NASA data, including imagery",
+    "category": "Science & Math",
+    "url": "https://api.nasa.gov",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Open Meteo",
+    "description": "Global weather forecast API",
+    "category": "Weather",
+    "url": "https://open-meteo.com/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Weather API",
+    "description": "Weather API with forecasts, historical and current weather data",
+    "category": "Weather",
+    "url": "https://www.weatherapi.com/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "CoinGecko",
+    "description": "Cryptocurrency data API",
+    "category": "Cryptocurrency",
+    "url": "https://www.coingecko.com/api/documentation",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Binance",
+    "description": "Exchange for trading cryptocurrencies",
+    "category": "Cryptocurrency",
+    "url": "https://github.com/binance/binance-spot-api-docs",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "TMDB",
+    "description": "Community-built movie and TV database",
+    "category": "Movies & TV",
+    "url": "https://www.themoviedb.org/documentation/api",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "OMDb",
+    "description": "Open Movie Database",
+    "category": "Movies & TV",
+    "url": "https://www.omdbapi.com/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Spotify",
+    "description": "Music",
+    "category": "Music",
+    "url": "https://developer.spotify.com/documentation/web-api/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "OAuth"
+  },
+  {
+    "name": "Last.fm",
+    "description": "Music",
+    "category": "Music",
+    "url": "https://www.last.fm/api",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Genius",
+    "description": "Music lyrics and knowledge",
+    "category": "Music",
+    "url": "https://docs.genius.com/",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": true,
+    "authType": "OAuth"
+  },
+  {
+    "name": "Quotes API",
+    "description": "Gives random quotes",
+    "category": "Personality",
+    "url": "https://github.com/lukePeavey/quotable",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "News API",
+    "description": "Headlines currently published on news sources",
+    "category": "News",
+    "url": "https://newsapi.org/",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "New York Times",
+    "description": "Article search, top stories, book reviews and best sellers list",
+    "category": "News",
+    "url": "https://developer.nytimes.com/",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Mapbox",
+    "description": "Maps, geocoding, and navigation APIs & SDKs",
+    "category": "Maps",
+    "url": "https://docs.mapbox.com/",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "OpenStreetMap",
+    "description": "Navigation, geolocation and geographical data",
+    "category": "Maps",
+    "url": "https://wiki.openstreetmap.org/wiki/API",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": true,
+    "authType": "OAuth"
+  },
+  {
+    "name": "The Lord of the Rings",
+    "description": "The Lord of the Rings API",
+    "category": "Books",
+    "url": "https://the-one-api.dev/",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Open Library",
+    "description": "Books, book covers and related data",
+    "category": "Books",
+    "url": "https://openlibrary.org/developers/api",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Rick and Morty",
+    "description": "All Rick and Morty data from the TV show",
+    "category": "TV",
+    "url": "https://rickandmortyapi.com",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Game of Thrones Quotes",
+    "description": "Some quotes of Game of Thrones",
+    "category": "TV",
+    "url": "https://gameofthronesquotes.xyz/",
+    "https": true,
+    "cors": "unknown",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "JSONPlaceholder",
+    "description": "Fake data for testing and prototyping",
+    "category": "Development",
+    "url": "https://jsonplaceholder.typicode.com/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Random Data API",
+    "description": "Random data generator",
+    "category": "Development",
+    "url": "https://random-data-api.com",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "IP API",
+    "description": "IP location information",
+    "category": "Geolocation",
+    "url": "https://ip-api.com/docs",
+    "https": false,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "IPinfo",
+    "description": "IP location information",
+    "category": "Geolocation",
+    "url": "https://ipinfo.io/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "PokeAPI",
+    "description": "Pokemon Information",
+    "category": "Games",
+    "url": "https://pokeapi.co",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "RAWG",
+    "description": "Video Game Database",
+    "category": "Games",
+    "url": "https://rawg.io/apidocs",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "Spoonacular",
+    "description": "Recipe, food, and nutrition API",
+    "category": "Food & Drink",
+    "url": "https://spoonacular.com/food-api",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "TheCocktailDB",
+    "description": "Cocktail recipes",
+    "category": "Food & Drink",
+    "url": "https://www.thecocktaildb.com/api.php",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": false,
+    "authType": "None"
+  },
+  {
+    "name": "Stripe",
+    "description": "Payment processing platform",
+    "category": "Finance",
+    "url": "https://stripe.com/docs/api",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "apiKey"
+  },
+  {
+    "name": "PayPal",
+    "description": "Payment processing platform",
+    "category": "Finance",
+    "url": "https://developer.paypal.com/docs/api/overview/",
+    "https": true,
+    "cors": "yes",
+    "requiresAuth": true,
+    "authType": "OAuth"
+  }
+] 

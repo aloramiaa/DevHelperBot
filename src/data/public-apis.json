@@ -1,0 +1,698 @@
+{
+  "count": 100,
+  "entries": [
+    {
+      "API": "AdoptAPet",
+      "Description": "Resource to help get pets adopted",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.adoptapet.com/public/apis/pet_list.html",
+      "Category": "Animals"
+    },
+    {
+      "API": "Cataas",
+      "Description": "Cat as a service (cats pictures and gifs)",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://cataas.com/",
+      "Category": "Animals"
+    },
+    {
+      "API": "Dog API",
+      "Description": "Pictures of dogs from Tumblr",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://dog.ceo/dog-api/",
+      "Category": "Animals"
+    },
+    {
+      "API": "Random Fox",
+      "Description": "Random pictures of foxes",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://randomfox.ca/floof/",
+      "Category": "Animals"
+    },
+    {
+      "API": "AnimeChan",
+      "Description": "Anime quotes",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://animechan.vercel.app/",
+      "Category": "Anime"
+    },
+    {
+      "API": "Jikan",
+      "Description": "Unofficial MyAnimeList API",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://jikan.moe",
+      "Category": "Anime"
+    },
+    {
+      "API": "Art Institute of Chicago",
+      "Description": "Art",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://api.artic.edu/docs/",
+      "Category": "Art & Design"
+    },
+    {
+      "API": "Colormind",
+      "Description": "Color scheme generator",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "http://colormind.io/api-access/",
+      "Category": "Art & Design"
+    },
+    {
+      "API": "Metropolitan Museum of Art",
+      "Description": "Met Museum of Art",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://metmuseum.github.io/",
+      "Category": "Art & Design"
+    },
+    {
+      "API": "Auth0",
+      "Description": "Easy to implement, adaptable authentication and authorization",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://auth0.com",
+      "Category": "Authentication"
+    },
+    {
+      "API": "BitcoinCharts",
+      "Description": "Financial and technical data related to the Bitcoin network",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://bitcoincharts.com/about/markets-api/",
+      "Category": "Blockchain"
+    },
+    {
+      "API": "Etherscan",
+      "Description": "Ethereum explorer API",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://etherscan.io/apis",
+      "Category": "Blockchain"
+    },
+    {
+      "API": "Gutendex",
+      "Description": "Web-API for Project Gutenberg ebook library",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://gutendex.com/",
+      "Category": "Books"
+    },
+    {
+      "API": "Open Library",
+      "Description": "Books, book covers and related data",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://openlibrary.org/developers/api",
+      "Category": "Books"
+    },
+    {
+      "API": "Google Calendar",
+      "Description": "Display, create and modify Google calendar events",
+      "Auth": "OAuth",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://developers.google.com/google-apps/calendar/",
+      "Category": "Calendar"
+    },
+    {
+      "API": "nager.date",
+      "Description": "Public holidays for more than 90 countries",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://date.nager.at",
+      "Category": "Calendar"
+    },
+    {
+      "API": "Calendarific",
+      "Description": "Worldwide public holidays",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://calendarific.com/",
+      "Category": "Calendar"
+    },
+    {
+      "API": "CoinDesk",
+      "Description": "Bitcoin Price Index",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://old.coindesk.com/coindesk-api/",
+      "Category": "Cryptocurrency"
+    },
+    {
+      "API": "CoinGecko",
+      "Description": "Cryptocurrency Price, Market, and Developer/Social Data",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.coingecko.com/api/documentation",
+      "Category": "Cryptocurrency"
+    },
+    {
+      "API": "CoinMarketCap",
+      "Description": "Cryptocurrencies Prices",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://coinmarketcap.com/api/",
+      "Category": "Cryptocurrency"
+    },
+    {
+      "API": "Bored",
+      "Description": "Find random activities to fight boredom",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.boredapi.com/",
+      "Category": "Development"
+    },
+    {
+      "API": "Github",
+      "Description": "Make use of GitHub repositories, code and user info programmatically",
+      "Auth": "OAuth",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://docs.github.com/en/rest",
+      "Category": "Development"
+    },
+    {
+      "API": "GitLab",
+      "Description": "Automate GitLab interaction programmatically",
+      "Auth": "OAuth",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://docs.gitlab.com/ee/api/",
+      "Category": "Development"
+    },
+    {
+      "API": "Hacker News",
+      "Description": "Hacker News API",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://github.com/HackerNews/API",
+      "Category": "Development"
+    },
+    {
+      "API": "JSONPlaceholder",
+      "Description": "Fake data for testing and prototyping",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://jsonplaceholder.typicode.com/",
+      "Category": "Development"
+    },
+    {
+      "API": "Dictionary API",
+      "Description": "Dictionary API with URL/API Key access",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://dictionaryapi.dev/",
+      "Category": "Dictionaries"
+    },
+    {
+      "API": "Words API",
+      "Description": "Definitions, synonyms, antonyms, words that rhyme and more",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.wordsapi.com/",
+      "Category": "Dictionaries"
+    },
+    {
+      "API": "Geolocation API",
+      "Description": "Find geolocation data based on IP address",
+      "Auth": "https",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://www.abstractapi.com/api/ip-geolocation-api",
+      "Category": "Geocoding"
+    },
+    {
+      "API": "Geoapify",
+      "Description": "Forward and reverse geocoding, address autocompletes and more",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.geoapify.com/api/geocoding-api/",
+      "Category": "Geocoding"
+    },
+    {
+      "API": "Google Maps",
+      "Description": "Create/customize digital maps based on Google Maps data",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://developers.google.com/maps/",
+      "Category": "Geocoding"
+    },
+    {
+      "API": "Lyrics.ovh",
+      "Description": "Simple API to retrieve the lyrics of a song",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://lyrics.ovh/",
+      "Category": "Music"
+    },
+    {
+      "API": "Spotify",
+      "Description": "View Spotify music catalog, manage users' libraries, get recommendations and more",
+      "Auth": "OAuth",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://developer.spotify.com/documentation/web-api/",
+      "Category": "Music"
+    },
+    {
+      "API": "E-Mail Validator",
+      "Description": "Verify if an email is real",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.abstractapi.com/email-verification-validation-api",
+      "Category": "Email"
+    },
+    {
+      "API": "Random Data",
+      "Description": "Random data generator",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://random-data-api.com/documentation",
+      "Category": "Test Data"
+    },
+    {
+      "API": "Bacon Ipsum",
+      "Description": "A Meatier Lorem Ipsum Generator",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://baconipsum.com/json-api/",
+      "Category": "Test Data"
+    },
+    {
+      "API": "Placekitten",
+      "Description": "Placeholder kitten images",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://placekitten.com/",
+      "Category": "Test Data"
+    },
+    {
+      "API": "Unsplash",
+      "Description": "Photography",
+      "Auth": "OAuth",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://unsplash.com/developers",
+      "Category": "Photography"
+    },
+    {
+      "API": "Lorem Picsum",
+      "Description": "Images from Unsplash",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://picsum.photos/",
+      "Category": "Photography"
+    },
+    {
+      "API": "Pexels",
+      "Description": "Free Stock Photos and Videos",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.pexels.com/api/",
+      "Category": "Photography"
+    },
+    {
+      "API": "TVMaze",
+      "Description": "TV Show Data",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://www.tvmaze.com/api",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "TMDB",
+      "Description": "Community-based movie data",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://www.themoviedb.org/documentation/api",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "OMDB",
+      "Description": "Open Movie Database",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://www.omdbapi.com/",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "Marvel",
+      "Description": "Marvel Comics",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://developer.marvel.com/",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "Pokémon TCG",
+      "Description": "Pokémon TCG Information",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://pokemontcg.io/",
+      "Category": "Games & Comics"
+    },
+    {
+      "API": "News API",
+      "Description": "Search for news from various sources",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://newsapi.org/",
+      "Category": "News"
+    },
+    {
+      "API": "New York Times",
+      "Description": "Article search, best sellers, campaign finance, community, most popular, and times tags",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://developer.nytimes.com/",
+      "Category": "News"
+    },
+    {
+      "API": "Spoonacular",
+      "Description": "Recipes, Food Products, and Meal Planning",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://spoonacular.com/food-api",
+      "Category": "Food & Drink"
+    },
+    {
+      "API": "Open Food Facts",
+      "Description": "Food Products Database",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://world.openfoodfacts.org/data",
+      "Category": "Food & Drink"
+    },
+    {
+      "API": "CocktailDB",
+      "Description": "Cocktail Recipes",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.thecocktaildb.com/api.php",
+      "Category": "Food & Drink"
+    },
+    {
+      "API": "Stripe",
+      "Description": "Payment integration",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://stripe.com/docs/api",
+      "Category": "Finance"
+    },
+    {
+      "API": "COVID-19 Data",
+      "Description": "Global COVID 19 statistics, cases, deaths and more",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://github.com/M-Media-Group/Covid-19-API",
+      "Category": "Health"
+    },
+    {
+      "API": "Nutritionix",
+      "Description": "Nutrition database",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://developer.nutritionix.com/",
+      "Category": "Health"
+    },
+    {
+      "API": "TrueWay Geocoding",
+      "Description": "Forward/reverse geocoding, address validation",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://trueway.places/api-web/",
+      "Category": "Geocoding"
+    },
+    {
+      "API": "TrueWay Places",
+      "Description": "Discover nearby places and search by categories or keywords",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://trueway.places/api-web/",
+      "Category": "Geocoding"
+    },
+    {
+      "API": "Mapbox",
+      "Description": "Create/customize beautiful digital maps",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://docs.mapbox.com/",
+      "Category": "Geocoding"
+    },
+    {
+      "API": "NASA",
+      "Description": "NASA data, including imagery",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://api.nasa.gov",
+      "Category": "Science & Math"
+    },
+    {
+      "API": "OpenWeatherMap",
+      "Description": "Weather",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://openweathermap.org/api",
+      "Category": "Weather"
+    },
+    {
+      "API": "WeatherAPI",
+      "Description": "Weather API with forecasts",
+      "Auth": "apiKey",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://www.weatherapi.com/",
+      "Category": "Weather"
+    },
+    {
+      "API": "Teleport",
+      "Description": "Quality of Life Data",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://developers.teleport.org/",
+      "Category": "Open Data"
+    },
+    {
+      "API": "PokéAPI",
+      "Description": "Pokémon Information",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://pokeapi.co",
+      "Category": "Games & Comics"
+    },
+    {
+      "API": "Agify.io",
+      "Description": "Predicts age based on name",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://agify.io",
+      "Category": "Development"
+    },
+    {
+      "API": "Genderize.io",
+      "Description": "Predicts gender based on name",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://genderize.io",
+      "Category": "Development"
+    },
+    {
+      "API": "Nationalize.io",
+      "Description": "Predicts nationality based on name",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://nationalize.io",
+      "Category": "Development"
+    },
+    {
+      "API": "SWAPI",
+      "Description": "Star Wars Information",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://swapi.dev/",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "OpenAPI Directory",
+      "Description": "Collection of OpenAPI/Swagger definitions",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://github.com/APIs-guru/openapi-directory",
+      "Category": "Development"
+    },
+    {
+      "API": "IP-API",
+      "Description": "Find location with IP address",
+      "Auth": "No",
+      "HTTPS": false,
+      "Cors": "unknown",
+      "Link": "https://ip-api.com/docs",
+      "Category": "Geocoding"
+    },
+    {
+      "API": "REST Countries",
+      "Description": "Get information about countries via a RESTful API",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://restcountries.com",
+      "Category": "Geography"
+    },
+    {
+      "API": "GoQR",
+      "Description": "Generate QR codes",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://goqr.me/api/",
+      "Category": "Development"
+    },
+    {
+      "API": "Jokes Api",
+      "Description": "Programming and general jokes",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://github.com/15Dkatz/official_joke_api",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "Chuck Norris Database",
+      "Description": "Jokes",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://api.chucknorris.io",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "Quotable Quotes",
+      "Description": "Quotations API",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://github.com/lukePeavey/quotable",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "They Said So Quotes",
+      "Description": "Quotes API",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://quotes.rest/",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "Cat Facts",
+      "Description": "Daily cat facts",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://alexwohlbruck.github.io/cat-facts/",
+      "Category": "Animals"
+    },
+    {
+      "API": "IBGEKit",
+      "Description": "Brazilian city and state information",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://github.com/davicorreiajr/ibgekit",
+      "Category": "Geography"
+    },
+    {
+      "API": "HTTP Cat",
+      "Description": "Cat images for HTTP status codes",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "yes",
+      "Link": "https://http.cat/",
+      "Category": "Animals"
+    },
+    {
+      "API": "Advice Slip",
+      "Description": "Generate random advice slips",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "http://api.adviceslip.com/",
+      "Category": "Entertainment"
+    },
+    {
+      "API": "Imgflip",
+      "Description": "Meme generation",
+      "Auth": "No",
+      "HTTPS": true,
+      "Cors": "unknown",
+      "Link": "https://imgflip.com/api",
+      "Category": "Entertainment"
+    }
+  ]
+} 
