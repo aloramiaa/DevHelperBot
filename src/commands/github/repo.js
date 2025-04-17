@@ -62,8 +62,18 @@ export const execute = async (interaction) => {
     const contributors = contributorsResponse.data;
     
     // Get commit activity (commits per week for the past year)
-    const commitActivityResponse = await githubService.client.get(`/repos/${owner}/${repo}/stats/commit_activity`);
-    const commitActivity = commitActivityResponse.data;
+    let commitActivity = [];
+    try {
+      const commitActivityResponse = await githubService.client.get(`/repos/${owner}/${repo}/stats/commit_activity`);
+      if (Array.isArray(commitActivityResponse.data)) {
+        commitActivity = commitActivityResponse.data;
+      } else {
+        console.warn(`Unexpected commit activity data format for ${owner}/${repo}:`, typeof commitActivityResponse.data);
+      }
+    } catch (error) {
+      console.warn(`Error fetching commit activity for ${owner}/${repo}:`, error.message);
+      // Continue with empty commit activity data
+    }
     
     // Create chart URL for commit activity
     const commitActivityChartUrl = generateCommitActivityChartUrl(commitActivity);
@@ -180,8 +190,18 @@ export const legacyExecute = async (message, args = []) => {
       const contributors = contributorsResponse.data;
       
       // Get commit activity (commits per week for the past year)
-      const commitActivityResponse = await githubService.client.get(`/repos/${owner}/${repo}/stats/commit_activity`);
-      const commitActivity = commitActivityResponse.data;
+      let commitActivity = [];
+      try {
+        const commitActivityResponse = await githubService.client.get(`/repos/${owner}/${repo}/stats/commit_activity`);
+        if (Array.isArray(commitActivityResponse.data)) {
+          commitActivity = commitActivityResponse.data;
+        } else {
+          console.warn(`Unexpected commit activity data format for ${owner}/${repo}:`, typeof commitActivityResponse.data);
+        }
+      } catch (error) {
+        console.warn(`Error fetching commit activity for ${owner}/${repo}:`, error.message);
+        // Continue with empty commit activity data
+      }
       
       // Create chart URL for commit activity
       const commitActivityChartUrl = generateCommitActivityChartUrl(commitActivity);
@@ -316,6 +336,31 @@ function generateRepoLanguagesChartUrl(languagePercentages) {
  * @returns {string} - QuickChart.io URL
  */
 function generateCommitActivityChartUrl(commitActivity) {
+  // Check if commitActivity is an array
+  if (!Array.isArray(commitActivity) || commitActivity.length === 0) {
+    // Return a placeholder chart if data is invalid
+    const emptyChartData = {
+      type: 'bar',
+      data: {
+        labels: ['No Data Available'],
+        datasets: [{
+          label: 'Commits',
+          data: [0],
+          backgroundColor: 'rgba(54, 162, 235, 0.7)'
+        }]
+      },
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: 'Commit Activity (No Data Available)'
+          }
+        }
+      }
+    };
+    return `https://quickchart.io/chart?c=${encodeURIComponent(JSON.stringify(emptyChartData))}`;
+  }
+
   // Get the last 12 weeks of activity
   const recentActivity = commitActivity.slice(-12);
   
