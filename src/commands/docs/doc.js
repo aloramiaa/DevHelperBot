@@ -1,8 +1,32 @@
 import { EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-export const data = {
+export const data = new SlashCommandBuilder()
+  .setName('doc')
+  .setDescription('Search documentation for various technologies')
+  .addStringOption(option => 
+    option.setName('technology')
+      .setDescription('The technology to search documentation for')
+      .setRequired(true)
+      .addChoices(
+        { name: 'JavaScript', value: 'javascript' },
+        { name: 'HTML', value: 'html' },
+        { name: 'CSS', value: 'css' },
+        { name: 'React', value: 'react' },
+        { name: 'Node.js', value: 'node' },
+        { name: 'Python', value: 'python' }
+      )
+  )
+  .addStringOption(option => 
+    option.setName('query')
+      .setDescription('The search query')
+      .setRequired(true)
+  );
+
+// Command metadata for legacy text commands
+export const legacyData = {
   name: 'doc',
   description: 'Search documentation for various technologies',
   aliases: ['docs', 'documentation'],
@@ -159,3 +183,59 @@ async function searchPythonDocs(query) {
     return null;
   }
 }
+
+// Add the execute function for slash commands
+export const execute = async (interaction) => {
+  await interaction.deferReply();
+  
+  try {
+    const technology = interaction.options.getString('technology');
+    const query = interaction.options.getString('query');
+    
+    let result;
+    
+    switch (technology) {
+      case 'javascript':
+      case 'js':
+        result = await searchMDN('javascript', query);
+        break;
+      case 'html':
+        result = await searchMDN('html', query);
+        break;
+      case 'css':
+        result = await searchMDN('css', query);
+        break;
+      case 'react':
+        result = await searchReactDocs(query);
+        break;
+      case 'node':
+      case 'nodejs':
+        result = await searchNodeDocs(query);
+        break;
+      case 'python':
+        result = await searchPythonDocs(query);
+        break;
+      default:
+        return interaction.editReply(
+          'Unsupported technology. Currently supported: `javascript/js`, `html`, `css`, `react`, `node/nodejs`, `python`'
+        );
+    }
+    
+    if (!result) {
+      return interaction.editReply(`No documentation found for "${query}" in ${technology}.`);
+    }
+    
+    const embed = new EmbedBuilder()
+      .setTitle(result.title)
+      .setURL(result.url)
+      .setDescription(result.description)
+      .setColor('#0099ff')
+      .setFooter({ text: `${technology.toUpperCase()} Documentation`, iconURL: interaction.client.user.displayAvatarURL() })
+      .setTimestamp();
+    
+    return interaction.editReply({ embeds: [embed] });
+  } catch (error) {
+    console.error('Documentation search error:', error);
+    return interaction.editReply('An error occurred while searching for documentation. Please try again later.');
+  }
+};
