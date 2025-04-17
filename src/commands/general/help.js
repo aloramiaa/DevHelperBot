@@ -21,7 +21,7 @@ export const execute = async (interaction) => {
   const prefix = config.prefix;
   
   // If no command specified, show all commands
-  const commandName = interaction.options.getString('command');
+  const commandName = interaction.options ? interaction.options.getString('command') : null;
   if (!commandName) {
     // Get all command categories (folders)
     const commandsPath = join(__dirname, '../');

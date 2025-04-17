@@ -40,7 +40,11 @@ export const execute = async (message) => {
     
     // Execute command
     try {
-      await command.execute(message, args);
+      if (command.legacyExecute) {
+        await command.legacyExecute(message, args);
+      } else {
+        await command.execute(message, args);
+      }
     } catch (error) {
       console.error(`Error executing ${command.data.name}:`, error);
       message.reply('There was an error trying to execute that command!');
