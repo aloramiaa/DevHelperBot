@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { EmbedBuilder } = require('discord.js');
-const APIExplorerService = require('../../services/APIExplorerService');
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { EmbedBuilder } from 'discord.js';
+import APIExplorerService from '../../services/APIExplorerService.js';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName('api-list')
     .setDescription('Lists available free APIs by category')

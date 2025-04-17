@@ -1,13 +1,9 @@
-import puppeteer from 'puppeteer';
-import marked from 'marked';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+const puppeteer = require('puppeteer');
+const { marked } = require('marked');
+const fs = require('fs/promises');
+const path = require('path');
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-export default class MarkdownService {
+class MarkdownService {
   constructor() {
     this.browser = null;
     this.initialized = false;
@@ -280,4 +276,6 @@ export default class MarkdownService {
       console.error('Error cleaning up old screenshots:', error);
     }
   }
-} 
+}
+
+module.exports = MarkdownService; 

@@ -1,8 +1,8 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
-const APIExplorerService = require('../../services/APIExplorerService');
+import { SlashCommandBuilder } from '@discordjs/builders';
+import { EmbedBuilder } from 'discord.js';
+import APIExplorerService from '../../services/APIExplorerService.js';
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName('api-categories')
     .setDescription('List all available API categories'),
@@ -11,20 +11,14 @@ module.exports = {
     await interaction.deferReply();
     
     try {
-      const apiExplorer = new APIExplorerService();
-      const initialized = await apiExplorer.initialize();
-      
-      if (!initialized) {
-        return interaction.editReply('Failed to initialize API Explorer. Please try again later.');
-      }
-      
-      const categories = apiExplorer.getCategories();
+      await APIExplorerService.ensureInitialized();
+      const categories = await APIExplorerService.getCategories();
       
       if (!categories || categories.length === 0) {
         return interaction.editReply('No API categories found.');
       }
       
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle('Available API Categories')
         .setDescription('Use these categories with the `/api-list` or `/api-random` commands.')
         .setColor('#0099ff')
