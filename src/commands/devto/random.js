@@ -11,12 +11,24 @@ export const data = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-export const execute = async (interaction) => {
-  await interaction.deferReply();
+export const execute = async (interaction, args) => {
+  // Determine if this is a slash command or message command
+  const isSlashCommand = interaction.deferReply !== undefined;
+  
+  // Handle reply based on context
+  if (isSlashCommand) {
+    await interaction.deferReply();
+  } else {
+    // For message commands, just acknowledge receipt
+    await interaction.channel.send('Fetching a random article from Dev.to...');
+  }
   
   try {
     const devToService = new DevToService();
-    const tag = interaction.options.getString('tag');
+    // Get tag from either slash command or message args
+    const tag = isSlashCommand 
+      ? interaction.options.getString('tag') 
+      : args && args.length > 0 ? args[0] : null;
     
     let articles = [];
     if (tag) {
@@ -26,10 +38,13 @@ export const execute = async (interaction) => {
     }
     
     if (!articles || articles.length === 0) {
-      return interaction.editReply(tag 
+      const errorMessage = tag 
         ? `No articles found with tag "${tag}". Try another tag.`
-        : 'Failed to fetch articles from Dev.to. Please try again later.'
-      );
+        : 'Failed to fetch articles from Dev.to. Please try again later.';
+      
+      return isSlashCommand
+        ? interaction.editReply(errorMessage)
+        : interaction.channel.send(errorMessage);
     }
     
     // Pick a random article
@@ -50,9 +65,20 @@ export const execute = async (interaction) => {
       embed.addFields({ name: 'Tags', value: article.tag_list.join(', ') });
     }
     
-    await interaction.editReply({ embeds: [embed] });
+    // Send the embed based on context
+    if (isSlashCommand) {
+      await interaction.editReply({ embeds: [embed] });
+    } else {
+      await interaction.channel.send({ embeds: [embed] });
+    }
   } catch (error) {
     console.error('Error executing devto-random command:', error);
-    await interaction.editReply('Failed to fetch a random article from Dev.to. Please try again later.');
+    const errorMessage = 'Failed to fetch a random article from Dev.to. Please try again later.';
+    
+    if (isSlashCommand) {
+      await interaction.editReply(errorMessage);
+    } else {
+      await interaction.channel.send(errorMessage);
+    }
   }
 };
