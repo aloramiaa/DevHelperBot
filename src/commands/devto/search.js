@@ -19,11 +19,11 @@ export const data = new SlashCommandBuilder()
 export const execute = async (interaction, args) => {
   // Determine if this is a slash command or message command
   const isSlashCommand = interaction.deferReply !== undefined;
+  let loadingMessage;
   
   try {
     const devToService = new DevToService();
     let tag, requestedLimit;
-    let loadingMessage;
 
     if (isSlashCommand) {
       await interaction.deferReply();
@@ -32,7 +32,7 @@ export const execute = async (interaction, args) => {
     } else {
       // Message command handling
       if (!args || !args.length) {
-        return interaction.reply('Please provide a tag to search for. Example: `!devto-search javascript`');
+        return interaction.channel.send('Please provide a tag to search for. Example: `!devto-search javascript`');
       }
       tag = args[0];
       requestedLimit = parseInt(args[1]) || 3;
@@ -49,8 +49,8 @@ export const execute = async (interaction, args) => {
       if (isSlashCommand) {
         return interaction.editReply(response);
       } else {
-        if (loadingMessage) await loadingMessage.delete();
-        return interaction.reply(response);
+        if (loadingMessage) await loadingMessage.delete().catch(e => console.error('Error deleting message:', e));
+        return interaction.channel.send(response);
       }
     }
     
@@ -81,8 +81,8 @@ export const execute = async (interaction, args) => {
     if (isSlashCommand) {
       await interaction.editReply({ embeds: [embed], components: [row] });
     } else {
-      if (loadingMessage) await loadingMessage.delete();
-      await interaction.reply({ embeds: [embed], components: [row] });
+      if (loadingMessage) await loadingMessage.delete().catch(e => console.error('Error deleting message:', e));
+      await interaction.channel.send({ embeds: [embed], components: [row] });
     }
   } catch (error) {
     console.error('Error executing devto-search command:', error);
@@ -90,8 +90,8 @@ export const execute = async (interaction, args) => {
     if (isSlashCommand) {
       await interaction.editReply(errorMessage);
     } else {
-      if (loadingMessage) await loadingMessage.delete();
-      await interaction.reply(errorMessage);
+      if (loadingMessage) await loadingMessage.delete().catch(e => console.error('Error deleting message:', e));
+      await interaction.channel.send(errorMessage);
     }
   }
 };
