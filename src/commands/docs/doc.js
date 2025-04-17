@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 import axios from 'axios';
-import cheerio from 'cheerio';
+import * as cheerio from 'cheerio';
 
 export const data = {
   name: 'doc',
@@ -158,4 +158,4 @@ async function searchPythonDocs(query) {
     console.error('Python docs search error:', error);
     return null;
   }
-} 
+}

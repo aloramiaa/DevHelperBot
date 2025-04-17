@@ -1,15 +1,20 @@
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
-const { config } = require('./config/config.js');
-const { connectDatabase } = require('./config/database.js');
-const { readdirSync } = require('fs');
-const { join } = require('path');
-const PomodoroChecker = require('./services/pomodoroChecker.js');
-const NewsDigestService = require('./services/NewsDigestService.js');
-const MarkdownService = require('./services/MarkdownService.js');
-const TechStackService = require('./services/TechStackService.js');
-const CodeFormatterService = require('./services/CodeFormatterService.js');
-const DevToolsService = require('./services/DevToolsService.js');
-const APIExplorerService = require('./services/APIExplorerService.js');
+import { Client, GatewayIntentBits, Collection } from 'discord.js';
+import { config } from './config/config.js';
+import { connectDatabase } from './config/database.js';
+import { readdir } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import PomodoroChecker from './services/pomodoroChecker.js';
+import NewsDigestService from './services/NewsDigestService.js';
+import MarkdownService from './services/MarkdownService.js';
+import TechStackService from './services/TechStackService.js';
+import CodeFormatterService from './services/CodeFormatterService.js';
+import DevToolsService from './services/DevToolsService.js';
+import APIExplorerService from './services/APIExplorerService.js';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Initialize client with required intents
 const client = new Client({
@@ -43,15 +48,15 @@ let apiExplorerService;
 // Load commands
 const loadCommands = async () => {
   const commandsPath = join(__dirname, 'commands');
-  const commandFolders = readdirSync(commandsPath);
+  const commandFolders = await readdir(commandsPath);
 
   for (const folder of commandFolders) {
     const folderPath = join(commandsPath, folder);
-    const commandFiles = readdirSync(folderPath).filter(file => file.endsWith('.js'));
+    const commandFiles = (await readdir(folderPath)).filter(file => file.endsWith('.js'));
     
     for (const file of commandFiles) {
       const filePath = join(folderPath, file);
-      const command = require(filePath);
+      const command = await import(filePath);
       
       // Set a new item in the Collection with the command name as the key and the exported module as the value
       if ('data' in command && 'execute' in command) {
@@ -74,11 +79,11 @@ const loadCommands = async () => {
 // Load events
 const loadEvents = async () => {
   const eventsPath = join(__dirname, 'events');
-  const eventFiles = readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+  const eventFiles = (await readdir(eventsPath)).filter(file => file.endsWith('.js'));
   
   for (const file of eventFiles) {
     const filePath = join(eventsPath, file);
-    const event = require(filePath);
+    const event = await import(filePath);
     
     if (event.once) {
       client.once(event.name, (...args) => event.execute(...args));
@@ -165,4 +170,4 @@ process.on('SIGTERM', () => {
 });
 
 // Start the bot
-init(); 
+init();

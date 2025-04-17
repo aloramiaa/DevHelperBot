@@ -1,13 +1,18 @@
-const puppeteer = require('puppeteer');
-const { marked } = require('marked');
-const fs = require('fs/promises');
-const path = require('path');
+import puppeteer from 'puppeteer';
+import { marked } from 'marked';
+import { mkdir, readdir, stat, unlink } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 class MarkdownService {
   constructor() {
     this.browser = null;
     this.initialized = false;
-    this.outputDir = path.join(__dirname, '../../temp');
+    this.outputDir = join(__dirname, '../../temp');
     this.template = `
       <!DOCTYPE html>
       <html>
@@ -141,7 +146,7 @@ class MarkdownService {
     if (!this.initialized) {
       try {
         // Ensure output directory exists
-        await fs.mkdir(this.outputDir, { recursive: true });
+        await mkdir(this.outputDir, { recursive: true });
         
         this.browser = await puppeteer.launch({
           args: ['--no-sandbox', '--disable-setuid-sandbox'],
@@ -231,7 +236,7 @@ class MarkdownService {
       // Generate a unique filename
       const timestamp = Date.now();
       const filename = `markdown_${timestamp}.${format}`;
-      const outputPath = path.join(this.outputDir, filename);
+      const outputPath = join(this.outputDir, filename);
       
       // Take a screenshot of just the content
       await element.screenshot({
@@ -257,17 +262,17 @@ class MarkdownService {
    */
   async cleanupOldScreenshots(maxAge = 3600000) { // Default: 1 hour
     try {
-      const files = await fs.readdir(this.outputDir);
+      const files = await readdir(this.outputDir);
       const now = Date.now();
       
       for (const file of files) {
         if (file.startsWith('markdown_') && (file.endsWith('.png') || file.endsWith('.jpeg'))) {
-          const filePath = path.join(this.outputDir, file);
-          const stats = await fs.stat(filePath);
+          const filePath = join(this.outputDir, file);
+          const stats = await stat(filePath);
           
           // If file is older than maxAge, delete it
           if (now - stats.mtimeMs > maxAge) {
-            await fs.unlink(filePath);
+            await unlink(filePath);
             console.log(`Deleted old screenshot: ${file}`);
           }
         }
@@ -278,4 +283,4 @@ class MarkdownService {
   }
 }
 
-module.exports = MarkdownService; 
+export default MarkdownService;

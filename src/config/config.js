@@ -1,10 +1,15 @@
-const dotenv = require('dotenv');
-const path = require('path');
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Initialize dotenv
 dotenv.config();
 
-exports.config = {
+export const config = {
   // Discord Bot Configuration
   token: process.env.DISCORD_TOKEN,
   clientId: process.env.DISCORD_CLIENT_ID,
@@ -35,8 +40,8 @@ exports.config = {
 
   // Paths
   paths: {
-    commands: path.join(__dirname, '..', 'commands'),
-    events: path.join(__dirname, '..', 'events'),
+    commands: join(__dirname, '..', 'commands'),
+    events: join(__dirname, '..', 'events'),
   },
   
   // GitHub Settings
@@ -82,4 +87,4 @@ exports.config = {
     // Available flags
     availableFlags: ['g', 'i', 'm', 's', 'u', 'y']
   }
-}; 
+};

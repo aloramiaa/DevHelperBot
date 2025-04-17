@@ -1,13 +1,18 @@
+import { readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 /**
  * Service for managing and exploring public APIs
  */
-const { readFile } = require('fs/promises');
-const path = require('path');
-
 class APIExplorerService {
   static #apiData = null;
   static #initialized = false;
-  static #apiFilePath = path.join(__dirname, '../../data/apis.json');
+  static #apiFilePath = join(__dirname, '../../data/apis.json');
 
   /**
    * Initialize the API Explorer service by loading the API data
@@ -144,4 +149,4 @@ class APIExplorerService {
   }
 }
 
-module.exports = APIExplorerService;
+export default APIExplorerService;

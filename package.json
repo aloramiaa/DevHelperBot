@@ -2,7 +2,7 @@
   "name": "devhelpbot",
   "version": "1.0.0",
   "description": "A helpful Discord bot for developers",
-  "type": "commonjs",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -25,6 +25,7 @@
     "discord.js": "^14.18.0",
     "dotenv": "^16.5.0",
     "jsonwebtoken": "^9.0.2",
+    "jszip": "^3.10.1",
     "marked": "^9.1.6",
     "mongoose": "^7.8.6",
     "puppeteer": "^21.11.0",
