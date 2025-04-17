@@ -52,12 +52,12 @@ class APIExplorerService {
   static async getCategories() {
     await this.ensureInitialized();
     
-    if (!this.#apiData || !this.#apiData.entries) {
+    if (!this.#apiData) {
       return [];
     }
     
     // Get unique categories
-    const categories = new Set(this.#apiData.entries.map(api => api.Category));
+    const categories = new Set(this.#apiData.map(api => api.category));
     return [...categories].sort();
   }
 
@@ -68,11 +68,11 @@ class APIExplorerService {
   static async getAllAPIs() {
     await this.ensureInitialized();
     
-    if (!this.#apiData || !this.#apiData.entries) {
+    if (!this.#apiData) {
       return [];
     }
     
-    return this.#apiData.entries.map(api => this.formatAPIEntry(api));
+    return this.#apiData.map(api => this.formatAPIEntry(api));
   }
 
   /**
@@ -83,12 +83,12 @@ class APIExplorerService {
   static async getAPIsByCategory(category) {
     await this.ensureInitialized();
     
-    if (!this.#apiData || !this.#apiData.entries) {
+    if (!this.#apiData) {
       return [];
     }
     
-    const filteredAPIs = this.#apiData.entries.filter(
-      api => api.Category.toLowerCase() === category.toLowerCase()
+    const filteredAPIs = this.#apiData.filter(
+      api => api.category.toLowerCase() === category.toLowerCase()
     );
     
     return filteredAPIs.map(api => this.formatAPIEntry(api));
@@ -101,12 +101,12 @@ class APIExplorerService {
   static async getRandomAPI() {
     await this.ensureInitialized();
     
-    if (!this.#apiData || !this.#apiData.entries || this.#apiData.entries.length === 0) {
+    if (!this.#apiData || this.#apiData.length === 0) {
       return null;
     }
     
-    const randomIndex = Math.floor(Math.random() * this.#apiData.entries.length);
-    return this.formatAPIEntry(this.#apiData.entries[randomIndex]);
+    const randomIndex = Math.floor(Math.random() * this.#apiData.length);
+    return this.formatAPIEntry(this.#apiData[randomIndex]);
   }
 
   /**
@@ -117,15 +117,15 @@ class APIExplorerService {
   static async searchAPIs(query) {
     await this.ensureInitialized();
     
-    if (!this.#apiData || !this.#apiData.entries || !query) {
+    if (!this.#apiData || !query) {
       return [];
     }
     
     const lowercaseQuery = query.toLowerCase();
     
-    const matchingAPIs = this.#apiData.entries.filter(api => 
-      api.API.toLowerCase().includes(lowercaseQuery) || 
-      (api.Description && api.Description.toLowerCase().includes(lowercaseQuery))
+    const matchingAPIs = this.#apiData.filter(api => 
+      api.name.toLowerCase().includes(lowercaseQuery) || 
+      (api.description && api.description.toLowerCase().includes(lowercaseQuery))
     );
     
     return matchingAPIs.map(api => this.formatAPIEntry(api));
@@ -138,13 +138,13 @@ class APIExplorerService {
    */
   static formatAPIEntry(apiEntry) {
     return {
-      name: apiEntry.API,
-      description: apiEntry.Description || 'No description available',
-      url: apiEntry.Link,
-      category: apiEntry.Category,
-      requiresAuth: apiEntry.Auth !== 'No',
-      https: apiEntry.HTTPS === 'Yes',
-      cors: apiEntry.Cors || 'Unknown'
+      name: apiEntry.name,
+      description: apiEntry.description || 'No description available',
+      url: apiEntry.url,
+      category: apiEntry.category,
+      requiresAuth: apiEntry.requiresAuth,
+      https: apiEntry.https,
+      cors: apiEntry.cors || 'Unknown'
     };
   }
 }
