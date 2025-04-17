@@ -1,17 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import DevToService from '../../services/feeds/DevToService.js';
-
-export const data = {
-  name: 'devuser',
-  description: 'Get articles from a specific Dev.to user',
-  aliases: ['dev-user'],
-  usage: '<username> [limit]',
-  args: true,
-  guildOnly: false
-};
-
-// Initialize service
-const devToService = new DevToService();
 
 // Popular Dev.to users for suggestions
 const popularUsers = [
@@ -19,24 +8,34 @@ const popularUsers = [
   'taeluralexis', 'bolajiayodeji', 'rhymes', 'kayis'
 ];
 
-export const execute = async (message, args) => {
-  // Check if username is provided
-  if (!args.length) {
-    return message.reply(
-      `You need to provide a Dev.to username! \nFor example: \`!devuser ben 5\`\n\nPopular users: ${popularUsers.map(user => `\`${user}\``).join(', ')}`
-    );
-  }
+export const data = new SlashCommandBuilder()
+  .setName('devuser')
+  .setDescription('Get articles from a specific Dev.to user')
+  .addStringOption(option =>
+    option
+      .setName('username')
+      .setDescription('Dev.to username')
+      .setRequired(true)
+      .addChoices(...popularUsers.map(user => ({ name: user, value: user })))
+  )
+  .addIntegerOption(option =>
+    option
+      .setName('limit')
+      .setDescription('Number of articles to return (max 10)')
+      .setRequired(false)
+  );
+
+// Initialize service
+const devToService = new DevToService();
+
+export const execute = async (interaction) => {
+  await interaction.deferReply();
   
-  const username = args[0].toLowerCase();
-  // Second argument could be limit
-  const limit = args.length > 1 && !isNaN(args[1]) ? parseInt(args[1]) : 5;
-  // Cap the limit to prevent abuse
+  const username = interaction.options.getString('username').toLowerCase();
+  const limit = interaction.options.getInteger('limit') || 5;
   const cappedLimit = Math.min(limit, 10);
   
   try {
-    // Send loading message
-    const loadingMsg = await message.channel.send(`🔍 Fetching articles by Dev.to user: ${username}...`);
-    
     // Fetch articles by username
     const articles = await devToService.getArticlesByUsername(username, cappedLimit);
     
@@ -44,7 +43,7 @@ export const execute = async (message, args) => {
     const embed = new EmbedBuilder()
       .setTitle(`👩‍💻 Dev.to Articles by @${username}`)
       .setColor('#08090a') // Dev.to brand color
-      .setFooter({ text: 'DevHelper Bot | Dev.to User Search', iconURL: message.client.user.displayAvatarURL() })
+      .setFooter({ text: 'DevHelper Bot | Dev.to User Search', iconURL: interaction.client.user.displayAvatarURL() })
       .setTimestamp();
     
     // Add articles
@@ -92,14 +91,9 @@ export const execute = async (message, args) => {
       });
     }
     
-    // Delete loading message
-    await loadingMsg.delete();
-    
-    // Send embed
-    return message.reply({ embeds: [embed] });
-    
+    return interaction.editReply({ embeds: [embed] });
   } catch (error) {
     console.error(`Error fetching Dev.to articles for user ${username}:`, error);
-    return message.reply('An error occurred while fetching Dev.to articles. Please try again later.');
+    return interaction.editReply('An error occurred while fetching Dev.to articles. Please try again later.');
   }
-}; 
+};

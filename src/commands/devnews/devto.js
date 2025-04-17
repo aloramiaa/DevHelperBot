@@ -1,17 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import DevToService from '../../services/feeds/DevToService.js';
-
-export const data = {
-  name: 'devto',
-  description: 'Get articles from Dev.to',
-  aliases: ['dev.to'],
-  usage: '[category] [limit]',
-  args: false,
-  guildOnly: false
-};
-
-// Initialize service
-const devToService = new DevToService();
 
 // Define available categories
 const categories = {
@@ -24,43 +13,46 @@ const categories = {
   ai: 'AI and Machine Learning articles'
 };
 
-export const execute = async (message, args) => {
-  // Parse arguments - first arg could be category, second could be limit
-  let category = 'top';
-  let limit = 5;
+export const data = new SlashCommandBuilder()
+  .setName('devto')
+  .setDescription('Get articles from Dev.to')
+  .addStringOption(option =>
+    option
+      .setName('category')
+      .setDescription('Category of articles to fetch')
+      .setRequired(false)
+      .addChoices(...Object.entries(categories).map(([key, value]) => ({ 
+        name: value, 
+        value: key 
+      })))
+  )
+  .addIntegerOption(option =>
+    option
+      .setName('limit')
+      .setDescription('Number of articles to return (max 10)')
+      .setRequired(false)
+  );
+
+// Initialize service
+const devToService = new DevToService();
+
+export const execute = async (interaction) => {
+  await interaction.deferReply();
   
-  if (args.length > 0) {
-    // Check if first arg is a category
-    if (Object.keys(categories).includes(args[0].toLowerCase())) {
-      category = args[0].toLowerCase();
-      
-      // If there's a second arg, it might be the limit
-      if (args.length > 1 && !isNaN(args[1])) {
-        limit = parseInt(args[1]);
-      }
-    } 
-    // If first arg is a number, it's the limit
-    else if (!isNaN(args[0])) {
-      limit = parseInt(args[0]);
-    }
-  }
-  
-  // Cap the limit to prevent abuse
-  limit = Math.min(limit, 10);
+  const category = interaction.options.getString('category') || 'top';
+  const limit = interaction.options.getInteger('limit') || 5;
+  const cappedLimit = Math.min(limit, 10);
   
   try {
-    // Send loading message
-    const loadingMsg = await message.channel.send(`🔍 Fetching ${category} articles from Dev.to...`);
-    
     // Fetch articles based on category
     let articles = [];
     
     switch (category) {
       case 'top':
-        articles = await devToService.getTopArticles(limit);
+        articles = await devToService.getTopArticles(cappedLimit);
         break;
       case 'latest':
-        articles = await devToService.getLatestArticles(limit);
+        articles = await devToService.getLatestArticles(cappedLimit);
         break;
       case 'webdev':
       case 'javascript':
@@ -69,10 +61,10 @@ export const execute = async (message, args) => {
       case 'ai':
         // For tag-based categories
         const tag = category === 'ai' ? 'machinelearning' : category;
-        articles = await devToService.getArticlesByTag(tag, limit);
+        articles = await devToService.getArticlesByTag(tag, cappedLimit);
         break;
       default:
-        articles = await devToService.getTopArticles(limit);
+        articles = await devToService.getTopArticles(cappedLimit);
     }
     
     // Create embed
@@ -80,14 +72,14 @@ export const execute = async (message, args) => {
       .setTitle(`👩‍💻 Dev.to ${category.charAt(0).toUpperCase() + category.slice(1)} Articles`)
       .setColor('#08090a') // Dev.to brand color
       .setDescription(`Here are the ${categories[category].toLowerCase()}.`)
-      .setFooter({ text: 'DevHelper Bot | Dev.to', iconURL: message.client.user.displayAvatarURL() })
+      .setFooter({ text: 'DevHelper Bot | Dev.to', iconURL: interaction.client.user.displayAvatarURL() })
       .setTimestamp();
     
     // Add articles
     if (articles && articles.length > 0) {
       articles.forEach((article, index) => {
         const tags = article.tag_list?.length > 0 
-          ? `\n**Tags:** ${article.tag_list.slice(0, 3).join(', ')}` 
+          ? `\n**Tags:** ${article.tag_list.join(', ')}` 
           : '';
           
         embed.addFields({
@@ -102,17 +94,12 @@ export const execute = async (message, args) => {
     // Add help for categories
     embed.addFields({
       name: '📚 Available Categories',
-      value: Object.keys(categories).map(key => `\`${key}\``).join(', ')
+      value: Object.entries(categories).map(([key, value]) => `\`${key}\` - ${value}`).join('\n')
     });
     
-    // Delete loading message
-    await loadingMsg.delete();
-    
-    // Send embed
-    return message.reply({ embeds: [embed] });
-    
+    return interaction.editReply({ embeds: [embed] });
   } catch (error) {
     console.error('Error fetching Dev.to articles:', error);
-    return message.reply('An error occurred while fetching Dev.to articles. Please try again later.');
+    return interaction.editReply('An error occurred while fetching Dev.to articles. Please try again later.');
   }
-}; 
+};

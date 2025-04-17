@@ -1,36 +1,41 @@
 import { EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import HackerNewsService from '../../services/feeds/HackerNewsService.js';
 
-export const data = {
-  name: 'hn',
-  description: 'Get top stories from Hacker News',
-  aliases: ['hackernews'],
-  usage: '[top|new|best|ask|show] [number]',
-  args: false,
-  guildOnly: false
-};
+export const data = new SlashCommandBuilder()
+  .setName('hn')
+  .setDescription('Get top stories from Hacker News')
+  .addStringOption(option =>
+    option
+      .setName('type')
+      .setDescription('Type of stories to fetch')
+      .setRequired(false)
+      .addChoices(
+        { name: 'Top Stories', value: 'top' },
+        { name: 'New Stories', value: 'new' },
+        { name: 'Best Stories', value: 'best' },
+        { name: 'Ask HN', value: 'ask' },
+        { name: 'Show HN', value: 'show' }
+      )
+  )
+  .addIntegerOption(option =>
+    option
+      .setName('limit')
+      .setDescription('Number of stories to return (max 10)')
+      .setRequired(false)
+  );
 
 // Initialize service
 const hnService = new HackerNewsService();
 
-export const execute = async (message, args) => {
-  const type = args.length > 0 ? args[0].toLowerCase() : 'top';
-  const limit = args.length > 1 && !isNaN(args[1]) ? parseInt(args[1]) : 5;
+export const execute = async (interaction) => {
+  await interaction.deferReply();
   
-  // Cap the limit to prevent abuse
+  const type = interaction.options.getString('type') || 'top';
+  const limit = interaction.options.getInteger('limit') || 5;
   const cappedLimit = Math.min(limit, 10);
   
   try {
-    // Validate type
-    if (!['top', 'new', 'best', 'ask', 'show'].includes(type)) {
-      return message.reply(
-        'Invalid story type. Available options: top, new, best, ask, show.\n\nExample: `!hn top 5`'
-      );
-    }
-    
-    // Send loading message
-    const loadingMsg = await message.channel.send(`🔍 Fetching ${type} Hacker News stories...`);
-    
     // Get stories based on type
     let stories;
     switch (type) {
@@ -55,8 +60,7 @@ export const execute = async (message, args) => {
     
     // Check if stories were found
     if (!stories || stories.length === 0) {
-      await loadingMsg.delete();
-      return message.reply('No Hacker News stories found. Please try again later.');
+      return interaction.editReply('No Hacker News stories found. Please try again later.');
     }
     
     // Create embed
@@ -64,7 +68,7 @@ export const execute = async (message, args) => {
       .setTitle(`🔥 ${capitalize(type)} Hacker News Stories`)
       .setColor('#ff6600') // HN orange
       .setDescription(`Here are the ${cappedLimit} ${type} stories from Hacker News:`)
-      .setFooter({ text: 'DevHelper Bot | Hacker News', iconURL: message.client.user.displayAvatarURL() })
+      .setFooter({ text: 'DevHelper Bot | Hacker News', iconURL: interaction.client.user.displayAvatarURL() })
       .setTimestamp();
     
     // Add stories to embed
@@ -75,15 +79,10 @@ export const execute = async (message, args) => {
       });
     });
     
-    // Delete loading message
-    await loadingMsg.delete();
-    
-    // Send embed
-    return message.reply({ embeds: [embed] });
-    
+    return interaction.editReply({ embeds: [embed] });
   } catch (error) {
     console.error('Error fetching Hacker News stories:', error);
-    return message.reply('An error occurred while fetching Hacker News stories. Please try again later.');
+    return interaction.editReply('An error occurred while fetching Hacker News stories. Please try again later.');
   }
 };
 
@@ -94,4 +93,4 @@ export const execute = async (message, args) => {
  */
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
-} 
+}

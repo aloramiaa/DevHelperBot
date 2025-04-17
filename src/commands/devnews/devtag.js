@@ -1,17 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import DevToService from '../../services/feeds/DevToService.js';
-
-export const data = {
-  name: 'devtag',
-  description: 'Get Dev.to articles by tag',
-  aliases: ['dev-tag'],
-  usage: '<tag> [limit]',
-  args: true,
-  guildOnly: false
-};
-
-// Initialize service
-const devToService = new DevToService();
 
 // Popular Dev.to tags for suggestions
 const popularTags = [
@@ -21,24 +10,34 @@ const popularTags = [
   'career', 'docker', 'ai', 'tutorial'
 ];
 
-export const execute = async (message, args) => {
-  // Check if tag is provided
-  if (!args.length) {
-    return message.reply(
-      `You need to provide a tag! \nFor example: \`!devtag javascript 5\`\n\nPopular tags: ${popularTags.map(tag => `\`${tag}\``).join(', ')}`
-    );
-  }
+export const data = new SlashCommandBuilder()
+  .setName('devtag')
+  .setDescription('Get Dev.to articles by tag')
+  .addStringOption(option =>
+    option
+      .setName('tag')
+      .setDescription('The tag to search for')
+      .setRequired(true)
+      .addChoices(...popularTags.map(tag => ({ name: tag, value: tag })))
+  )
+  .addIntegerOption(option =>
+    option
+      .setName('limit')
+      .setDescription('Number of articles to return (max 10)')
+      .setRequired(false)
+  );
+
+// Initialize service
+const devToService = new DevToService();
+
+export const execute = async (interaction) => {
+  await interaction.deferReply();
   
-  const tag = args[0].toLowerCase();
-  // Second argument could be limit
-  const limit = args.length > 1 && !isNaN(args[1]) ? parseInt(args[1]) : 5;
-  // Cap the limit to prevent abuse
+  const tag = interaction.options.getString('tag').toLowerCase();
+  const limit = interaction.options.getInteger('limit') || 5;
   const cappedLimit = Math.min(limit, 10);
   
   try {
-    // Send loading message
-    const loadingMsg = await message.channel.send(`🔍 Fetching Dev.to articles with tag: ${tag}...`);
-    
     // Fetch articles by tag
     const articles = await devToService.getArticlesByTag(tag, cappedLimit);
     
@@ -46,7 +45,7 @@ export const execute = async (message, args) => {
     const embed = new EmbedBuilder()
       .setTitle(`👩‍💻 Dev.to Articles: #${tag}`)
       .setColor('#08090a') // Dev.to brand color
-      .setFooter({ text: 'DevHelper Bot | Dev.to Tag Search', iconURL: message.client.user.displayAvatarURL() })
+      .setFooter({ text: 'DevHelper Bot | Dev.to Tag Search', iconURL: interaction.client.user.displayAvatarURL() })
       .setTimestamp();
     
     // Add articles
@@ -77,14 +76,9 @@ export const execute = async (message, args) => {
       });
     }
     
-    // Delete loading message
-    await loadingMsg.delete();
-    
-    // Send embed
-    return message.reply({ embeds: [embed] });
-    
+    return interaction.editReply({ embeds: [embed] });
   } catch (error) {
     console.error(`Error fetching Dev.to articles with tag ${tag}:`, error);
-    return message.reply('An error occurred while fetching Dev.to articles. Please try again later.');
+    return interaction.editReply('An error occurred while fetching Dev.to articles. Please try again later.');
   }
-}; 
+};
