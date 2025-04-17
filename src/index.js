@@ -1,19 +1,15 @@
-import { Client, GatewayIntentBits, Collection } from 'discord.js';
-import { config } from './config/config.js';
-import { connectDatabase } from './config/database.js';
-import { readdirSync } from 'fs';
-import { join } from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import PomodoroChecker from './services/pomodoroChecker.js';
-import NewsDigestService from './services/NewsDigestService.js';
-import MarkdownService from './services/MarkdownService.js';
-import TechStackService from './services/TechStackService.js';
-import CodeFormatterService from './services/CodeFormatterService.js';
-import DevToolsService from './services/DevToolsService.js';
-import APIExplorerService from './services/APIExplorerService.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { config } = require('./config/config.js');
+const { connectDatabase } = require('./config/database.js');
+const { readdirSync } = require('fs');
+const { join } = require('path');
+const PomodoroChecker = require('./services/pomodoroChecker.js');
+const NewsDigestService = require('./services/NewsDigestService.js');
+const MarkdownService = require('./services/MarkdownService.js');
+const TechStackService = require('./services/TechStackService.js');
+const CodeFormatterService = require('./services/CodeFormatterService.js');
+const DevToolsService = require('./services/DevToolsService.js');
+const APIExplorerService = require('./services/APIExplorerService.js');
 
 // Initialize client with required intents
 const client = new Client({
@@ -55,7 +51,7 @@ const loadCommands = async () => {
     
     for (const file of commandFiles) {
       const filePath = join(folderPath, file);
-      const command = await import(filePath);
+      const command = require(filePath);
       
       // Set a new item in the Collection with the command name as the key and the exported module as the value
       if ('data' in command && 'execute' in command) {
@@ -82,7 +78,7 @@ const loadEvents = async () => {
   
   for (const file of eventFiles) {
     const filePath = join(eventsPath, file);
-    const event = await import(filePath);
+    const event = require(filePath);
     
     if (event.once) {
       client.once(event.name, (...args) => event.execute(...args));

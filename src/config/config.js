@@ -1,13 +1,10 @@
-import dotenv from 'dotenv';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+const dotenv = require('dotenv');
+const path = require('path');
 
 // Initialize dotenv
 dotenv.config();
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
-export const config = {
+exports.config = {
   // Discord Bot Configuration
   token: process.env.DISCORD_TOKEN,
   clientId: process.env.DISCORD_CLIENT_ID,
@@ -38,8 +35,8 @@ export const config = {
 
   // Paths
   paths: {
-    commands: join(__dirname, '..', 'commands'),
-    events: join(__dirname, '..', 'events'),
+    commands: path.join(__dirname, '..', 'commands'),
+    events: path.join(__dirname, '..', 'events'),
   },
   
   // GitHub Settings
