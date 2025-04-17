@@ -7,6 +7,17 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// Legacy data for text commands
+export const legacyData = {
+  name: 'help',
+  description: 'Shows all available commands or info about a specific command',
+  aliases: ['commands'],
+  usage: '[command]',
+  args: false,
+  guildOnly: false,
+  cooldown: 5
+};
+
 export const data = new SlashCommandBuilder()
   .setName('help')
   .setDescription('Shows all available commands or info about a specific command')
@@ -16,6 +27,7 @@ export const data = new SlashCommandBuilder()
       .setRequired(false)
   );
 
+// Slash command handler
 export const execute = async (interaction) => {
   const { commands } = interaction.client;
   const prefix = config.prefix;
@@ -98,13 +110,13 @@ export const execute = async (interaction) => {
   return interaction.reply({ embeds: [embed] });
 };
 
-// Keep the legacy command handler for backward compatibility
-export const legacyExecute = async (message, args) => {
+// Legacy text command handler
+export const legacyExecute = async (message, args = []) => {
   const { commands } = message.client;
   const prefix = config.prefix;
   
   // If no args, show all commands
-  if (!args.length) {
+  if (!args || !args.length) {
     // Get all command categories (folders)
     const commandsPath = join(__dirname, '../');
     const categories = readdirSync(commandsPath);

@@ -19,6 +19,17 @@ export const data = new SlashCommandBuilder()
       .setRequired(true)
   );
 
+// Legacy data for text commands
+export const legacyData = {
+  name: 'json',
+  description: 'Format or minify JSON strings',
+  aliases: ['jsonformat', 'jsonminify'],
+  usage: '<format|minify> <json>',
+  args: true,
+  guildOnly: false,
+  cooldown: 3
+};
+
 export const execute = async (interaction) => {
   try {
     const operation = interaction.options.getString('operation');
@@ -76,11 +87,11 @@ export const execute = async (interaction) => {
 };
 
 // Keep the legacy command handler for backward compatibility
-export const legacyExecute = async (message, args) => {
+export const legacyExecute = async (message, args = []) => {
   // Check if we have enough arguments
-  if (args.length < 2) {
+  if (!args || args.length < 2) {
     return message.reply(
-      `You need to provide an operation (format/minify) and JSON string.\nUsage: \`${message.client.prefix}${data.name} format {"name":"John","age":30}\``
+      `You need to provide an operation (format/minify) and JSON string.\nUsage: \`${message.client.prefix}${legacyData.name} format {"name":"John","age":30}\``
     );
   }
 
@@ -119,7 +130,7 @@ export const legacyExecute = async (message, args) => {
       result = devToolsService.minifyJSON(cleanJson);
       title = '📦 JSON Minify';
     } else {
-      return message.reply(`Invalid operation. Use \`format\` or \`minify\`.\nUsage: \`${message.client.prefix}${data.name} format {"name":"John","age":30}\``);
+      return message.reply(`Invalid operation. Use \`format\` or \`minify\`.\nUsage: \`${message.client.prefix}${legacyData.name} format {"name":"John","age":30}\``);
     }
     
     // Create embed for the response

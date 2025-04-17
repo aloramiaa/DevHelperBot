@@ -137,7 +137,11 @@ export const execute = async (interaction) => {
 };
 
 // Legacy text command handler
-export const legacyExecute = async (message, args) => {
+export const legacyExecute = async (message, args = []) => {
+  if (!args || args.length === 0) {
+    return message.reply('You need to provide a repository in the format `owner/repo`. Example: `!ghrepo facebook/react`');
+  }
+  
   const repoPath = args[0];
   
   if (!repoPath || !repoPath.includes('/')) {

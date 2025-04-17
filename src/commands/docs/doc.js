@@ -11,8 +11,8 @@ export const data = {
   guildOnly: false
 };
 
-export const execute = async (message, args) => {
-  if (args.length < 2) {
+export const legacyExecute = async (message, args = []) => {
+  if (!args || args.length < 2) {
     return message.reply(
       'Please provide both a technology and a search query. Example: `!doc js array map`'
     );

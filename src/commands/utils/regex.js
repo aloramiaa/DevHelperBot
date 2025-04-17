@@ -13,8 +13,8 @@ export const data = {
 // Initialize regex service
 const regexService = new RegexService();
 
-export const execute = async (message, args) => {
-  if (args.length < 2) {
+export const execute = async (message, args = []) => {
+  if (!args || args.length < 2) {
     return message.reply(
       'Not enough arguments. Please use one of these formats:\n' +
       '`!regex test <pattern> <test string> [flags]` - Test a regex pattern against a string\n' +
@@ -42,9 +42,9 @@ export const execute = async (message, args) => {
  * @param {Object} message - Discord message object
  * @param {Array} args - Command arguments
  */
-async function handleTestCommand(message, args) {
+async function handleTestCommand(message, args = []) {
   // We need at least 2 args: pattern and test string
-  if (args.length < 2) {
+  if (!args || args.length < 2) {
     return message.reply(
       'Not enough arguments for the test command. Format: `!regex test <pattern> <test string> [flags]`\n' +
       'Example: `!regex test "\\d+" "abc123def" g`'
@@ -118,9 +118,9 @@ async function handleTestCommand(message, args) {
  * @param {Object} message - Discord message object
  * @param {Array} args - Command arguments
  */
-async function handleExplainCommand(message, args) {
+async function handleExplainCommand(message, args = []) {
   // We need at least 1 arg: pattern
-  if (args.length < 1) {
+  if (!args || args.length < 1) {
     return message.reply(
       'Please provide a regex pattern to explain. Format: `!regex explain <pattern>`\n' +
       'Example: `!regex explain "\\d+"`'

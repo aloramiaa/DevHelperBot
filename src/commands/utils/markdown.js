@@ -13,7 +13,7 @@ export const data = {
 // Initialize markdown service
 let markdownService = null;
 
-export const execute = async (message, args) => {
+export const legacyExecute = async (message, args = []) => {
   // Initialize service if not already initialized
   if (!markdownService) {
     markdownService = new MarkdownService();
@@ -42,7 +42,7 @@ export const execute = async (message, args) => {
     }
     
     // If no markdown content from reference, use the command arguments
-    if (!markdownContent && args.length > 0) {
+    if (!markdownContent && args && args.length > 0) {
       markdownContent = args.join(' ');
     }
     
@@ -79,4 +79,7 @@ export const execute = async (message, args) => {
     console.error('Error rendering markdown:', error);
     return message.reply('An error occurred while rendering the markdown. Please try again with valid markdown content.');
   }
-}; 
+};
+
+// For backward compatibility
+export const execute = legacyExecute; 

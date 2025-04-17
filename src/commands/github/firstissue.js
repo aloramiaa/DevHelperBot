@@ -113,7 +113,7 @@ export const execute = async (interaction) => {
 };
 
 // Legacy command handler for text commands
-export const legacyExecute = async (message, args) => {
+export const legacyExecute = async (message, args = []) => {
   if (!args || args.length === 0) {
     return message.reply(
       'Please provide a project name or topic. Examples:\n' +

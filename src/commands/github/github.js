@@ -63,7 +63,7 @@ export const execute = async (interaction) => {
 };
 
 // Legacy text command handler
-export const legacyExecute = async (message, args) => {
+export const legacyExecute = async (message, args = []) => {
   try {
     const embed = new EmbedBuilder()
       .setTitle('🐙 GitHub Commands')

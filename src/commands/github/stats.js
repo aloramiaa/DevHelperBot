@@ -105,12 +105,12 @@ export const execute = async (interaction) => {
 };
 
 // Legacy text command handler
-export const legacyExecute = async (message, args) => {
-  const username = args[0];
-  
-  if (!username) {
+export const legacyExecute = async (message, args = []) => {
+  if (!args || args.length === 0) {
     return message.reply('You need to provide a GitHub username. Example: `!ghstats octocat`');
   }
+  
+  const username = args[0];
   
   try {
     // Send loading message
