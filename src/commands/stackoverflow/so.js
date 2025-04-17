@@ -1,8 +1,18 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import axios from 'axios';
 import { config } from '../../config/config.js';
 
-export const data = {
+export const data = new SlashCommandBuilder()
+  .setName('so')
+  .setDescription('Search Stack Overflow for answers')
+  .addStringOption(option => 
+    option.setName('query')
+      .setDescription('Your Stack Overflow search query')
+      .setRequired(true)
+  );
+
+// Legacy data for text commands
+export const legacyData = {
   name: 'so',
   description: 'Search Stack Overflow for answers',
   aliases: ['stackoverflow', 'stack'],
@@ -11,8 +21,61 @@ export const data = {
   guildOnly: false
 };
 
-export const execute = async (message, args) => {
-  if (!args.length) {
+// Slash command handler
+export const execute = async (interaction) => {
+  await interaction.deferReply();
+  
+  const query = interaction.options.getString('query');
+  
+  // Validate query
+  if (!query || query.trim() === '') {
+    return interaction.editReply('Please provide a search query. Example: `/so query:"TypeError undefined is not a function"`');
+  }
+  
+  try {
+    const searchResults = await searchStackOverflow(query);
+    
+    if (!searchResults || searchResults.length === 0) {
+      return interaction.editReply(`No results found on Stack Overflow for "${query}".`);
+    }
+    
+    // Get the top result
+    const topResult = searchResults[0];
+    
+    // Fetch answers for the top result
+    const answers = await getAnswers(topResult.question_id);
+    
+    if (!answers || answers.length === 0) {
+      return interaction.editReply(`Found a question but no answers for "${query}" on Stack Overflow.`);
+    }
+    
+    // Get the accepted answer or the highest scored answer
+    const bestAnswer = answers.find(a => a.is_accepted) || answers.sort((a, b) => b.score - a.score)[0];
+    
+    // Create embed for the question and answer
+    const embed = new EmbedBuilder()
+      .setTitle(topResult.title)
+      .setURL(topResult.link)
+      .setColor('#F48024') // Stack Overflow orange
+      .setDescription(`${truncateText(bestAnswer.body, 1000)}\n\n[View full answer on Stack Overflow](${topResult.link}#${bestAnswer.answer_id})`)
+      .addFields(
+        { name: 'Score', value: `👍 ${bestAnswer.score}`, inline: true },
+        { name: 'Accepted', value: bestAnswer.is_accepted ? '✅ Yes' : '❌ No', inline: true },
+        { name: 'Asked by', value: topResult.owner.display_name, inline: true }
+      )
+      .setFooter({ text: 'Stack Overflow', iconURL: 'https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico' })
+      .setTimestamp(new Date(bestAnswer.creation_date * 1000));
+    
+    return interaction.editReply({ embeds: [embed] });
+  } catch (error) {
+    console.error('Stack Overflow search error:', error);
+    return interaction.editReply('An error occurred while searching Stack Overflow. Please try again later.');
+  }
+};
+
+// Legacy text command handler
+export const legacyExecute = async (message, args = []) => {
+  if (!args || !args.length) {
     return message.reply('Please provide a search query. Example: `!so "TypeError undefined is not a function"`');
   }
 

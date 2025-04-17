@@ -29,6 +29,16 @@ export const execute = async (interaction) => {
   
   const query = interaction.options.getString('query');
   
+  // Validate query parameter
+  if (!query || query.trim() === '') {
+    return interaction.editReply({
+      content: 'Please provide a project name or topic. Examples:\n' +
+        '`/firstissue query:react` - Find issues in projects with React topic\n' +
+        '`/firstissue query:facebook/react` - Find issues in a specific repository',
+      ephemeral: true
+    });
+  }
+  
   try {
     // Get good first issues
     const { totalCount, issues } = await githubService.findGoodFirstIssues({

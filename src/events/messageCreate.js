@@ -41,7 +41,8 @@ export const execute = async (message) => {
     // Execute command
     try {
       if (command.legacyExecute) {
-        await command.legacyExecute(message, args);
+        // Make sure args is always defined
+        await command.legacyExecute(message, args || []);
       } else if (command.execute) {
         // Create a simplified interaction-like object for commands without a legacyExecute function
         const mockInteraction = {

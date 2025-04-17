@@ -1,8 +1,13 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import axios from 'axios';
 import { config } from '../../config/config.js';
 
-export const data = {
+export const data = new SlashCommandBuilder()
+  .setName('github')
+  .setDescription('Show all GitHub-related commands and features');
+
+// Legacy data for text commands
+export const legacyData = {
   name: 'github',
   description: 'Show all GitHub-related commands and features',
   aliases: ['gh'],
@@ -11,7 +16,54 @@ export const data = {
   guildOnly: false
 };
 
-export const execute = async (message, args) => {
+// Slash command handler
+export const execute = async (interaction) => {
+  try {
+    const embed = new EmbedBuilder()
+      .setTitle('🐙 GitHub Commands')
+      .setColor('#24292E') // GitHub dark color
+      .setDescription('Here are all available GitHub-related commands:')
+      .addFields(
+        { 
+          name: '📊 GitHub User Stats', 
+          value: '`/ghstats username:<username>` - Get detailed statistics and contribution analysis for a GitHub user\n' +
+                'Shows top languages, commit activity, repository count, and most active times.'
+        },
+        { 
+          name: '📚 Repository Analysis', 
+          value: '`/ghrepo repository:<owner/repo>` - Get detailed information about a GitHub repository\n' +
+                'Shows languages, stars, contributors, commit activity, and more.'
+        },
+        {
+          name: '🌱 Good First Issue Finder',
+          value: '`/firstissue query:<project or topic>` - Find beginner-friendly issues in open-source projects\n' +
+                'Great for developers looking to start contributing to open source.'
+        },
+        {
+          name: '📈 Data Visualization',
+          value: 'Stats commands include auto-generated charts powered by QuickChart.io:\n' +
+                '• Language distribution (doughnut chart)\n' +
+                '• Commit activity by day (bar chart)\n' +
+                '• Time of day activity pattern (line chart)'
+        },
+        {
+          name: '💡 Examples',
+          value: '`/ghstats username:octocat` - Show GitHub stats for user "octocat"\n' +
+                '`/ghrepo repository:facebook/react` - Show repository analysis for React\n' +
+                '`/firstissue query:javascript` - Find beginner issues in JavaScript projects'
+        }
+      )
+      .setFooter({ text: 'DevHelper Bot | GitHub Features', iconURL: interaction.client.user.displayAvatarURL() });
+    
+    return interaction.reply({ embeds: [embed] });
+  } catch (error) {
+    console.error('Error displaying GitHub help:', error);
+    return interaction.reply('An error occurred while displaying GitHub help.');
+  }
+};
+
+// Legacy text command handler
+export const legacyExecute = async (message, args) => {
   try {
     const embed = new EmbedBuilder()
       .setTitle('🐙 GitHub Commands')

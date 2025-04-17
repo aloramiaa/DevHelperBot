@@ -1,7 +1,17 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import axios from 'axios';
 
-export const data = {
+export const data = new SlashCommandBuilder()
+  .setName('npm')
+  .setDescription('Get information about NPM packages')
+  .addStringOption(option => 
+    option.setName('package')
+      .setDescription('The name of the NPM package to look up')
+      .setRequired(true)
+  );
+
+// Legacy data for text commands
+export const legacyData = {
   name: 'npm',
   description: 'Get information about NPM packages',
   aliases: ['package', 'pkg'],
@@ -10,8 +20,68 @@ export const data = {
   guildOnly: false
 };
 
-export const execute = async (message, args) => {
-  if (!args.length) {
+// Slash command handler
+export const execute = async (interaction) => {
+  await interaction.deferReply();
+  
+  const packageName = interaction.options.getString('package').toLowerCase();
+  
+  // Validate package name
+  if (!packageName || packageName.trim() === '') {
+    return interaction.editReply('Please provide a package name. Example: `/npm package:express`');
+  }
+  
+  try {
+    const packageInfo = await getPackageInfo(packageName);
+    
+    if (!packageInfo) {
+      return interaction.editReply(`Package "${packageName}" not found in the NPM registry.`);
+    }
+    
+    // Create a rich embed with package details
+    const embed = new EmbedBuilder()
+      .setTitle(`📦 ${packageInfo.name}`)
+      .setURL(`https://www.npmjs.com/package/${packageInfo.name}`)
+      .setColor('#CB3837') // NPM red
+      .setDescription(truncateText(packageInfo.description || 'No description available', 200))
+      .addFields(
+        { name: 'Version', value: packageInfo.version || 'Unknown', inline: true },
+        { name: 'License', value: packageInfo.license || 'Unknown', inline: true },
+        { name: 'Last Updated', value: packageInfo.date ? formatDate(packageInfo.date) : 'Unknown', inline: true },
+        { name: 'Author', value: formatAuthor(packageInfo.author), inline: true },
+        { name: 'Weekly Downloads', value: formatNumber(packageInfo.downloads) || 'Unknown', inline: true },
+        { name: 'Repository', value: packageInfo.repository ? `[GitHub](${packageInfo.repository})` : 'Not specified', inline: true }
+      )
+      .setFooter({ text: 'NPM Registry', iconURL: 'https://static.npmjs.com/338e4905a2684ca96e08c7780fc68412.png' })
+      .setTimestamp();
+    
+    // Add keywords if available
+    if (packageInfo.keywords && packageInfo.keywords.length) {
+      embed.addFields({ 
+        name: 'Keywords', 
+        value: packageInfo.keywords.slice(0, 5).join(', ') + (packageInfo.keywords.length > 5 ? '...' : '')
+      });
+    }
+    
+    // Add dependencies if available
+    if (packageInfo.dependencies && Object.keys(packageInfo.dependencies).length) {
+      const deps = Object.keys(packageInfo.dependencies).slice(0, 10);
+      embed.addFields({
+        name: `Dependencies (${Object.keys(packageInfo.dependencies).length})`,
+        value: deps.join(', ') + (Object.keys(packageInfo.dependencies).length > 10 ? '...' : '')
+      });
+    }
+    
+    return interaction.editReply({ embeds: [embed] });
+  } catch (error) {
+    console.error('NPM package search error:', error);
+    return interaction.editReply('An error occurred while fetching package information. Please try again later.');
+  }
+};
+
+// Legacy text command handler
+export const legacyExecute = async (message, args = []) => {
+  if (!args || !args.length) {
     return message.reply('Please provide a package name. Example: `!npm express`');
   }
 
