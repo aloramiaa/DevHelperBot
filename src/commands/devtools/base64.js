@@ -96,13 +96,13 @@ export const legacyExecute = async (message, args = []) => {
     );
   }
 
-  // Get the operation and text
-  const operation = args[0].toLowerCase();
-  
-  // Get all but the first argument (the operation) and join them with spaces
-  const text = args.slice(1).join(' ');
-  
   try {
+    // Get the operation and text
+    const operation = args[0].toLowerCase();
+    
+    // Get all but the first argument (the operation) and join them with spaces
+    const text = args.slice(1).join(' ');
+    
     // Get the DevTools service
     const devToolsService = message.client.devToolsService;
     
@@ -142,7 +142,7 @@ export const legacyExecute = async (message, args = []) => {
     return message.reply({ embeds: [embed] });
     
   } catch (error) {
-    console.error(`Error ${args[0]} Base64:`, error);
+    console.error(`Error with Base64 command:`, error);
     return message.reply(`An error occurred: ${error.message}`);
   }
 }; 

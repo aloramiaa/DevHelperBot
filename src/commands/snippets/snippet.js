@@ -31,10 +31,11 @@ const languageAliases = {
   'rs': 'rust'
 };
 
-export const execute = async (message, args) => {
-  if (args.length < 2) {
+export const execute = async (message, args = []) => {
+  if (!args || args.length < 2) {
     return message.reply(
-      `Please provide both a language and code. Example: \`!snippet js console.log("Hello World");\`\n\nSupported languages: ${supportedLanguages.join(', ')}`
+      `You need to provide a language and code to share.\nUsage: \`${message.client.prefix}snippet <language> <code>\`\n` +
+      `Example: \`${message.client.prefix}snippet js function hello() { return "world"; }\``
     );
   }
 

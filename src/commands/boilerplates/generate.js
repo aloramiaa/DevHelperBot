@@ -548,8 +548,8 @@ document.addEventListener('DOMContentLoaded', fetchItems);`
   }
 };
 
-export const execute = async (message, args) => {
-  if (args.length < 2) {
+export const execute = async (message, args = []) => {
+  if (!args || args.length < 2) {
     const templateList = Object.entries(templates)
       .map(([key, template]) => `\`${key}\` - ${template.icon} ${template.name}: ${template.description}`)
       .join('\n');

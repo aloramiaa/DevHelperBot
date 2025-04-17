@@ -9,7 +9,7 @@ export const data = {
   guildOnly: false
 };
 
-export const execute = async (message, args) => {
+export const execute = async (message, args = []) => {
   try {
     // Get the formatter service
     const formatterService = message.client.codeFormatterService;

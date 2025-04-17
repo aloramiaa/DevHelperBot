@@ -14,7 +14,7 @@ export const data = {
 const DEFAULT_FOCUS_MINUTES = 25;
 const DEFAULT_BREAK_MINUTES = 5;
 
-export const execute = async (message, args) => {
+export const execute = async (message, args = []) => {
   if (!args.length) {
     return message.reply(
       'Please provide a subcommand. Use `start <minutes> [break minutes]`, `break`, `cancel`, or `status`'
@@ -45,7 +45,7 @@ export const execute = async (message, args) => {
 };
 
 // Start a new Pomodoro session
-async function startPomodoro(message, args) {
+async function startPomodoro(message, args = []) {
   // Check if user already has an active session
   const existingSession = await PomodoroSession.findOne({
     userId: message.author.id,

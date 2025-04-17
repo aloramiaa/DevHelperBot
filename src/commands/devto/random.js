@@ -11,7 +11,7 @@ export const data = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-export const execute = async (interaction, args) => {
+export const execute = async (interaction, args = []) => {
   // Determine if this is a slash command or message command
   const isSlashCommand = interaction.deferReply !== undefined;
   

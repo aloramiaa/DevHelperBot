@@ -82,6 +82,70 @@ src/
 
 ---
 
+## 🔧 Troubleshooting
+
+### Puppeteer Installation Issues
+
+If you encounter errors related to Puppeteer or the markdown rendering command (`!markdown`), you may need to install additional dependencies required by Chromium:
+
+#### Ubuntu/Debian:
+```bash
+apt-get update && apt-get install -y \
+  ca-certificates \
+  fonts-liberation \
+  libappindicator3-1 \
+  libasound2 \
+  libatk-bridge2.0-0 \
+  libatk1.0-0 \
+  libc6 \
+  libcairo2 \
+  libcups2 \
+  libdbus-1-3 \
+  libexpat1 \
+  libfontconfig1 \
+  libgbm1 \
+  libgcc1 \
+  libglib2.0-0 \
+  libgtk-3-0 \
+  libnspr4 \
+  libnss3 \
+  libpango-1.0-0 \
+  libpangocairo-1.0-0 \
+  libstdc++6 \
+  libx11-6 \
+  libx11-xcb1 \
+  libxcb1 \
+  libxcomposite1 \
+  libxcursor1 \
+  libxdamage1 \
+  libxext6 \
+  libxfixes3 \
+  libxi6 \
+  libxrandr2 \
+  libxrender1 \
+  libxss1 \
+  libxtst6 \
+  lsb-release \
+  wget \
+  xdg-utils
+```
+
+#### CentOS:
+```bash
+yum install -y alsa-lib at-spi2-atk at-spi2-core atk cups-libs libdrm libXcomposite libXcursor libXdamage libXext libXfixes libxi libXrandr libXrender mesa-libgbm nspr nss pango
+```
+
+#### Windows:
+The bot should work without additional dependencies on Windows.
+
+#### MacOS:
+The bot should work without additional dependencies on MacOS.
+
+#### Alternative: Disable Markdown Service
+If you can't install the required dependencies, the bot will still function without the markdown rendering capability.
+
+---
+
 ## ⚡ One-Click Deployment
 
 > Deploy DevHelper on your own in seconds. No credit card, no catch.

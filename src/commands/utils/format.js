@@ -10,9 +10,9 @@ export const data = {
   cooldown: 5
 };
 
-export const execute = async (message, args) => {
+export const execute = async (message, args = []) => {
   // Check if we have enough arguments
-  if (args.length < 2) {
+  if (!args || args.length < 2) {
     return message.reply(
       `You need to provide a language and code to format.\nUsage: \`${message.client.prefix}format <language> <code>\`\n` +
       `Example: \`${message.client.prefix}format js function hello() { return "world"; }\``

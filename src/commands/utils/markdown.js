@@ -12,17 +12,29 @@ export const data = {
 
 // Initialize markdown service
 let markdownService = null;
+let markdownServiceFailed = false;
 
 export const legacyExecute = async (message, args = []) => {
   // Initialize service if not already initialized
-  if (!markdownService) {
-    markdownService = new MarkdownService();
-    await markdownService.initialize();
-    
-    // Clean up old screenshots periodically
-    setInterval(() => {
-      markdownService.cleanupOldScreenshots();
-    }, 3600000); // Clean up every hour
+  if (!markdownService && !markdownServiceFailed) {
+    try {
+      markdownService = new MarkdownService();
+      await markdownService.initialize();
+      
+      // Clean up old screenshots periodically
+      setInterval(() => {
+        markdownService.cleanupOldScreenshots();
+      }, 3600000); // Clean up every hour
+    } catch (error) {
+      console.error('Failed to initialize Markdown service:', error);
+      markdownServiceFailed = true;
+      return message.reply('Sorry, the markdown rendering service is unavailable. This feature requires additional system dependencies to run.');
+    }
+  }
+  
+  // If markdown service previously failed to initialize, show a message
+  if (markdownServiceFailed) {
+    return message.reply('Sorry, the markdown rendering service is unavailable. This feature requires additional system dependencies to run.');
   }
   
   try {

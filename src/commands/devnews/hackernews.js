@@ -87,12 +87,12 @@ export const execute = async (interaction) => {
 };
 
 // Handler for text-based commands
-export const legacyExecute = async (message, args) => {
+export const legacyExecute = async (message, args = []) => {
   // Message to show that the command is being processed
   const processingMsg = await message.reply('Fetching Hacker News stories...');
   
-  const type = args[0] || 'top';
-  const limit = parseInt(args[1]) || 5;
+  const type = args && args.length > 0 ? args[0] : 'top';
+  const limit = args && args.length > 1 ? parseInt(args[1]) : 5;
   const cappedLimit = Math.min(limit, 10);
   
   try {

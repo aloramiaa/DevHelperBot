@@ -106,32 +106,47 @@ const init = async () => {
     await client.login(config.token);
     
     // Initialize services after login
-    initializeServices();
+    await initializeServices();
   } catch (error) {
     console.error('Failed to initialize the bot:', error);
   }
 };
 
 // Initialize background services
-const initializeServices = () => {
-  pomodoroChecker = new PomodoroChecker(client);
-  newsDigestService = new NewsDigestService();
-  markdownService = new MarkdownService();
-  techStackService = new TechStackService();
-  codeFormatterService = new CodeFormatterService();
-  devToolsService = new DevToolsService();
-  apiExplorerService = new APIExplorerService();
-  
-  // Make services available on client
-  client.pomodoroChecker = pomodoroChecker;
-  client.newsDigestService = newsDigestService;
-  client.markdownService = markdownService;
-  client.techStackService = techStackService;
-  client.codeFormatterService = codeFormatterService;
-  client.devToolsService = devToolsService;
-  client.apiExplorerService = apiExplorerService;
-  
-  console.log('Services initialized');
+const initializeServices = async () => {
+  try {
+    pomodoroChecker = new PomodoroChecker(client);
+    newsDigestService = new NewsDigestService();
+    techStackService = new TechStackService();
+    codeFormatterService = new CodeFormatterService();
+    devToolsService = new DevToolsService();
+    apiExplorerService = new APIExplorerService();
+    
+    // Make services available on client
+    client.pomodoroChecker = pomodoroChecker;
+    client.newsDigestService = newsDigestService;
+    client.techStackService = techStackService;
+    client.codeFormatterService = codeFormatterService;
+    client.devToolsService = devToolsService;
+    client.apiExplorerService = apiExplorerService;
+    
+    // Initialize markdown service separately to handle errors
+    try {
+      markdownService = new MarkdownService();
+      await markdownService.initialize();
+      client.markdownService = markdownService;
+      console.log('Markdown service initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize Markdown service:', error);
+      console.log('Bot will continue running without Markdown rendering capability');
+      // Set to null to indicate service is unavailable
+      client.markdownService = null;
+    }
+    
+    console.log('Services initialized');
+  } catch (error) {
+    console.error('Error initializing services:', error);
+  }
 };
 
 // Handle process termination

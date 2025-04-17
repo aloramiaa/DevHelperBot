@@ -10,7 +10,7 @@ export const data = {
   guildOnly: true
 };
 
-export const execute = async (message, args) => {
+export const execute = async (message, args = []) => {
   const subCommand = args[0]?.toLowerCase();
   
   if (!subCommand || !['add', 'list', 'complete', 'remove'].includes(subCommand)) {

@@ -10,7 +10,7 @@ export const data = {
   cooldown: 5
 };
 
-export const execute = async (message, args) => {
+export const execute = async (message, args = []) => {
   try {
     const prefix = message.client.prefix;
     
