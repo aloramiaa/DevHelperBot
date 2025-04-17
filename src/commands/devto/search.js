@@ -16,13 +16,28 @@ export const data = new SlashCommandBuilder()
       .setRequired(false)
   );
 
-export const execute = async (interaction) => {
-  await interaction.deferReply();
+export const execute = async (interaction, args) => {
+  // Determine if this is a slash command or message command
+  const isSlashCommand = interaction.deferReply !== undefined;
   
   try {
     const devToService = new DevToService();
-    const tag = interaction.options.getString('tag');
-    const requestedLimit = interaction.options.getInteger('limit');
+    let tag, requestedLimit;
+    let loadingMessage;
+
+    if (isSlashCommand) {
+      await interaction.deferReply();
+      tag = interaction.options.getString('tag');
+      requestedLimit = interaction.options.getInteger('limit');
+    } else {
+      // Message command handling
+      if (!args || !args.length) {
+        return interaction.reply('Please provide a tag to search for. Example: `!devto-search javascript`');
+      }
+      tag = args[0];
+      requestedLimit = parseInt(args[1]) || 3;
+      loadingMessage = await interaction.channel.send('🔍 Searching Dev.to articles...');
+    }
     
     // Cap the limit to prevent abuse
     const limit = requestedLimit ? Math.min(requestedLimit, 5) : 3;
@@ -30,12 +45,18 @@ export const execute = async (interaction) => {
     const articles = await devToService.getArticlesByTag(tag, limit);
     
     if (!articles || articles.length === 0) {
-      return interaction.editReply(`No articles found with tag "${tag}". Try another tag.`);
+      const response = `No articles found with tag "${tag}". Try another tag.`;
+      if (isSlashCommand) {
+        return interaction.editReply(response);
+      } else {
+        if (loadingMessage) await loadingMessage.delete();
+        return interaction.reply(response);
+      }
     }
     
     const embed = new EmbedBuilder()
       .setTitle(`Dev.to Articles - #${tag}`)
-      .setColor('#0A0A0A') // Dev.to brand color
+      .setColor('#0A0A0A')
       .setDescription(`Found ${articles.length} articles with tag #${tag}`)
       .setURL(`https://dev.to/t/${tag}`)
       .setThumbnail('https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png');
@@ -56,10 +77,21 @@ export const execute = async (interaction) => {
           .setURL(`https://dev.to/t/${tag}`)
           .setStyle(ButtonStyle.Link)
       );
-    
-    await interaction.editReply({ embeds: [embed], components: [row] });
+
+    if (isSlashCommand) {
+      await interaction.editReply({ embeds: [embed], components: [row] });
+    } else {
+      if (loadingMessage) await loadingMessage.delete();
+      await interaction.reply({ embeds: [embed], components: [row] });
+    }
   } catch (error) {
     console.error('Error executing devto-search command:', error);
-    await interaction.editReply('Failed to search Dev.to articles. Please try again later.');
+    const errorMessage = 'Failed to search Dev.to articles. Please try again later.';
+    if (isSlashCommand) {
+      await interaction.editReply(errorMessage);
+    } else {
+      if (loadingMessage) await loadingMessage.delete();
+      await interaction.reply(errorMessage);
+    }
   }
 };
