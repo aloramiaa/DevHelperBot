@@ -47,63 +47,58 @@ const createAPIEmbed = (api) => {
 
 // Slash command handler
 export const execute = async (interaction) => {
-  if (interaction.isChatInputCommand()) {
-    await interaction.deferReply();
+  await interaction.deferReply();
+  
+  try {
+    const category = interaction.options.getString('category');
+    let api;
     
-    try {
-      const category = interaction.options.getString('category');
-      let api;
-      
-      if (category) {
-        const apis = await APIExplorerService.getAPIsByCategory(category);
-        if (apis.length === 0) {
-          return interaction.editReply(`No APIs found in the "${category}" category.`);
-        }
-        api = apis[Math.floor(Math.random() * apis.length)];
-      } else {
-        api = await APIExplorerService.getRandomAPI();
+    if (category) {
+      const apis = await APIExplorerService.getAPIsByCategory(category);
+      if (apis.length === 0) {
+        return interaction.editReply(`No APIs found in the "${category}" category.`);
       }
-      
-      if (!api) {
-        return interaction.editReply('Failed to find a random API. Please try again.');
-      }
-      
-      await interaction.editReply({ embeds: [createAPIEmbed(api)] });
-    } catch (error) {
-      console.error('Error executing api-random command:', error);
-      await interaction.editReply('Failed to retrieve a random API. Please try again later.');
+      api = apis[Math.floor(Math.random() * apis.length)];
+    } else {
+      api = await APIExplorerService.getRandomAPI();
     }
-  } else {
-    // Message command handler
-    const args = interaction.content.split(' ').slice(1);
+    
+    if (!api) {
+      return interaction.editReply('Failed to find a random API. Please try again.');
+    }
+    
+    await interaction.editReply({ embeds: [createAPIEmbed(api)] });
+  } catch (error) {
+    console.error('Error executing api-random command:', error);
+    await interaction.editReply('Failed to retrieve a random API. Please try again later.');
+  }
+};
+
+// Legacy command handler for text commands
+export const legacyExecute = async (message, args) => {
+  const loadingMsg = await message.reply('🔍 Finding a random API...');
+  
+  try {
     const category = args[0];
-    const loadingMsg = await interaction.channel.send('🔍 Finding a random API...');
+    let api;
     
-    try {
-      let api;
-      
-      if (category) {
-        const apis = await APIExplorerService.getAPIsByCategory(category);
-        if (apis.length === 0) {
-          await loadingMsg.delete();
-          return interaction.reply(`No APIs found in the "${category}" category.`);
-        }
-        api = apis[Math.floor(Math.random() * apis.length)];
-      } else {
-        api = await APIExplorerService.getRandomAPI();
+    if (category) {
+      const apis = await APIExplorerService.getAPIsByCategory(category);
+      if (apis.length === 0) {
+        return loadingMsg.edit(`No APIs found in the "${category}" category.`);
       }
-      
-      if (!api) {
-        await loadingMsg.delete();
-        return interaction.reply('Failed to find a random API. Please try again.');
-      }
-      
-      await loadingMsg.delete();
-      await interaction.reply({ embeds: [createAPIEmbed(api)] });
-    } catch (error) {
-      console.error('Error executing api-random command:', error);
-      await loadingMsg.delete();
-      await interaction.reply('Failed to retrieve a random API. Please try again later.');
+      api = apis[Math.floor(Math.random() * apis.length)];
+    } else {
+      api = await APIExplorerService.getRandomAPI();
     }
+    
+    if (!api) {
+      return loadingMsg.edit('Failed to find a random API. Please try again.');
+    }
+    
+    await loadingMsg.edit({ embeds: [createAPIEmbed(api)], content: null });
+  } catch (error) {
+    console.error('Error executing api-random command:', error);
+    await loadingMsg.edit('Failed to retrieve a random API. Please try again later.');
   }
 };
